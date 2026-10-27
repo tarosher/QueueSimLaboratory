@@ -1,0 +1,12 @@
+# Runtime outputs, local MATLAB session and editor files
+outputs/*
+!outputs/.gitkeep
+*.asv
+*.autosave
+*.mlx.autosave
+.DS_Store
+Thumbs.db
+
+# Python helper caches
+__pycache__/
+*.pyc

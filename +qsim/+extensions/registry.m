@@ -1,0 +1,13 @@
+function registry = registry()
+%REGISTRY Stable extension names, hooks, and current implementation status.
+% Presence here reserves a contract, not execution support.
+registry = struct('id',{},'configNamespace',{},'status',{},'hooks',{});
+registry(1)=struct('id','network','configNamespace','Config.extensions.network', ...
+    'status','implemented-M4-DAG','hooks',{{'registerNode','registerRoute','onTransfer','collectVisit'}});
+registry(2)=struct('id','resources','configNamespace','Config.extensions.resources', ...
+    'status','contract-only','hooks',{{'registerResource','acquire','release','onAvailabilityChange'}});
+registry(3)=struct('id','traffic','configNamespace','Config.extensions.traffic', ...
+    'status','contract-only','hooks',{{'registerArrivalProfile','onQueueSpillback','onRoadCapacityChange'}});
+registry(4)=struct('id','energy','configNamespace','Config.extensions.energy', ...
+    'status','contract-only','hooks',{{'registerContinuousState','advanceState','onPowerChange','rescheduleCompletion'}});
+end

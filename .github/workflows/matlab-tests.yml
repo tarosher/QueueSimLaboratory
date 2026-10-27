@@ -1,0 +1,41 @@
+name: MATLAB R2022b regression tests
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matlab-tests:
+    # Private repositories require a MATLAB batch licensing token.
+    # Enable repository variable ENABLE_PRIVATE_MATLAB_CI=true only after
+    # setting repository secret MATLAB_BATCH_TOKEN. Public repos may run automatically.
+    if: ${{ !github.event.repository.private || vars.ENABLE_PRIVATE_MATLAB_CI == 'true' }}
+    env:
+      MLM_LICENSE_TOKEN: ${{ secrets.MATLAB_BATCH_TOKEN }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up MATLAB R2022b
+        uses: matlab-actions/setup-matlab@v3
+        with:
+          release: R2022b
+      - name: Run full release-candidate acceptance
+        uses: matlab-actions/run-command@v3
+        with:
+          command: "run('tests/run_rc_acceptance.m');"
+      - name: Preserve integrated results for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: queuesimlab-integrated-report
+          path: |
+            outputs/m41_integrated/
+            outputs/validation/
+            outputs/performance/
+          if-no-files-found: warn
+          retention-days: 7

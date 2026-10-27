@@ -1,0 +1,19 @@
+name: Repository static preflight
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repository structure and documentation
+        run: |
+          python3 -m unittest discover -s tools -p 'test_*.py' -v
+          python3 tools/check_release.py
