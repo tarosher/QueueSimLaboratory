@@ -7,7 +7,7 @@
 1. 核对 [代码来源表](PROVENANCE_AUDIT_ZH.md)，取得相关作者/课程授权；确定署名与发布范围。
 2. 在 [审批记录](RELEASE_APPROVAL_RECORD_ZH.md) 留下确认结果。只保存公开所需的最低限度信息，不上传私人批准邮件。
 3. 审查 [Release Notes 草稿](RELEASE_NOTES_V0.2.0_DRAFT.md) 中的功能边界，明确 v0.2 不提供 GUI、交通回溢、能源耦合和非 DAG 网络。
-4. 在正确的 `main` 分支下检查 [静态 CI](https://github.com/tarosher/QueueSimLaboratory/actions) 与实际 MATLAB 运行结果。新仓库首次推送后检查 CI；旧版精简工程此前本地 89/89 通过。
+4. 在正确的 `main` 分支下检查 [静态 CI](https://github.com/tarosher/QueueSimLaboratory/actions) 与实际 MATLAB 运行结果。新仓库首个干净提交静态 CI 已 [通过](https://github.com/tarosher/QueueSimLaboratory/actions/runs/40542216485)，MATLAB 云端作业为 skipped；旧版精简工程此前本地 89/89 通过。发布时应复查最终 commit 的 CI。
 5. 公开许可决策未完成之前，不修改仓库可见性、不创建 GitHub Release；可以在独立草稿分支审阅标准 MIT `LICENSE` 候选，但不能当作最终授权。
 
 ## B. 得到充分授权之后，且在公开之前

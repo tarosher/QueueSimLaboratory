@@ -17,8 +17,8 @@ PUBLIC_RELEASE_APPROVED: NO
 ## 发布前须完成
 
 - [ ] 完成保留源码、示例、fixture 的最终第三方来源与个人信息复核（自动扫描不能保证版权来源）。
-- [ ] 在新仓库第一条正式提交上核对 Git author/committer 署名和 `noreply` 邮箱。
-- [ ] 运行新仓库 GitHub Actions 静态 CI；私有 MATLAB CI 未运行时继续标注 skipped。
+- [x] 新仓库首个 Git 提交 `a3c8cfe0879d5c4313869ea67979498a752f0538` 已核对：author 与 committer 均为 Jiajun Xia，使用 GitHub `noreply` 邮箱；共1个历史提交。
+- [x] 新仓库首个提交静态 GitHub CI 已通过（run 40542216485）；MATLAB CI 显示 skipped（run 40542216771），不视为通过。
 - [ ] 从最终拟发布 Git SHA 在本地 MATLAB R2022b 执行 `tests/run_rc_acceptance.m` 并保存精确 SHA。
 - [ ] 项目所有者明确确认对外公开与 MIT 授权的发布范围，核对最终源码包和 README 版本限制。
 - [ ] 对外发布前将本内部 HOLD 信息与待审状态更新为真实决定。

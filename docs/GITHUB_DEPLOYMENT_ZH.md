@@ -18,11 +18,11 @@ git remote -v
 git push -u origin main
 ```
 
-请先在 GitHub 确认目标仓库是 **Private 且空仓库**。不需要 `git init`、不需要再次 `git add`/`git commit`，不要 `git push --force`。直接推送预先创建的单次提交即可。
+上述为首次初始化时的历史操作说明。**首次推送现已成功**。后续所有开发均在本仓库的功能或发布分支上进行；不要再次执行 `git init` 或覆盖 `main` 历史，也不要使用 `git push --force`。
 
 ## 验收
 
-首次推送后检查 [GitHub Actions](https://github.com/tarosher/QueueSimLaboratory/actions)。`Repository static preflight` 应执行；私有仓库 MATLAB Actions 在合规的 MATLAB batch licensing token 未配置前将显示 `skipped`，并不代表通过。
+首次提交的 [静态 Actions](https://github.com/tarosher/QueueSimLaboratory/actions/runs/40542216485) 已通过；[MATLAB Actions](https://github.com/tarosher/QueueSimLaboratory/actions/runs/40542216771) 为 `skipped`（需要合规的 MATLAB batch licensing token），不代表测试通过。后续新提交须查看其各自的 CI 状态。
 
 本地 MATLAB R2022b 在仓库根目录运行：
 

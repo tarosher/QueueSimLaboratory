@@ -12,11 +12,11 @@
 - [x] Confirm proposed copyright attribution: `Copyright (c) 2026 Jiajun Xia` (owner selected real-name identification, 2026-10-27).
 - [x] License type and named copyright holder selected: MIT, Copyright (c) 2026 Jiajun Xia.
 - [ ] Explicitly authorize public distribution under MIT after final provenance and release review.
-- [ ] Add accurate authorship, contact and contribution attribution. Do not claim affiliations, approval or funding not provided by the author.
-- [x] Prepare separate single-root Git history using noreply commit email; verify the new remote commit after push.
+- [x] Confirm author attribution **Jiajun Xia**, MIT copyright notice, and non-sensitive software citation metadata (`CITATION.cff`). No institutional affiliation or contact email is asserted.
+- [x] Create and verify clean new GitHub `main` history: one root commit `a3c8cfe0879d5c4313869ea67979498a752f0538`, author/committer Jiajun Xia and GitHub `noreply` email; no old email-bearing commits.
 - [ ] Confirm no tokens, institutional data, personal identifiers or copyrighted attachments are present.
 - [ ] Run all MATLAB tests and export smoke checks on the **exact** publishable commit.
-- [ ] Enable GitHub Actions and confirm the workflows on the real GitHub repository.
+- [x] Confirm GitHub static Actions success on clean initial commit ([run 40542216485](https://github.com/tarosher/QueueSimLaboratory/actions/runs/40542216485)); private MATLAB CI skipped and requires local verification or appropriate license.
 - [ ] Cut an annotated version tag and release only after checklist approval.
 
 ## Automation vs approval

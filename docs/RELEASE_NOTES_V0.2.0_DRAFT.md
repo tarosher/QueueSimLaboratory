@@ -20,7 +20,7 @@ QueueSimLab is a configurable discrete-event queueing simulation framework writt
 
 - Owner-provided `RC_ACCEPTANCE.md` reports **89/89 passed** (0 failed, 0 incomplete) on MATLAB R2022b (9.13.0.2049777), PCWIN64; integrated Benchmarks A–C verified with **23 metric rows**; performance characterization recorded **6 workload rows**.
 - That local report records `Commit: not supplied (local run)`. It therefore **does not cryptographically identify the exact Git commit**.
-- GitHub static preflight must be rerun for the clean `tarosher/QueueSimLaboratory` repository; the prior private development repository had passing static CI.
+- GitHub static preflight **passed** on clean `tarosher/QueueSimLaboratory` initial commit `a3c8cfe0879d5c4313869ea67979498a752f0538` ([run](https://github.com/tarosher/QueueSimLaboratory/actions/runs/40542216485)).
 - GitHub-hosted MATLAB Actions are intentionally **skipped** on the private repository unless appropriate batch licensing is configured; do not claim a remote MATLAB pass.
 - The complete private M5 archive reportedly passed **90** tests; the GitHub edition intentionally omits one legacy-dependent test and includes **89**.
 
@@ -44,7 +44,7 @@ Generated artifacts are stored under `outputs/` and are not shipped as source fi
 
 ## Legal / authorship gate — NOT YET APPROVED
 
-The GitHub candidate **excludes 38 original course-project MATLAB files and one legacy-dependent test**. This does not independently settle authorship or derivative-work questions for retained code. Determine rights, affiliations, third-party dependencies and approved license with relevant contributors or institutional guidance before publication. The repository is currently **Private**. The owner self-reports sole authorship of the original course project and has chosen **Jiajun Xia** for the proposed MIT copyright attribution; the MIT `LICENSE` candidate is pending review and **has not been approved or merged**. Review [provenance audit](PROVENANCE_AUDIT_ZH.md) and [approval record](RELEASE_APPROVAL_RECORD_ZH.md).
+The GitHub candidate **excludes 38 original course-project MATLAB files and one legacy-dependent test**. This does not independently settle authorship or derivative-work questions for retained code. Determine rights, affiliations, third-party dependencies and approved license with relevant contributors or institutional guidance before publication. The repository is currently **Private**. The owner self-reports sole authorship of the original course project, no known course restriction, and has chosen **Jiajun Xia** as the MIT copyright holder. The MIT `LICENSE` is already present in the new clean-history repository; this fact does **not** establish separate approval to make the repository public. Review [provenance audit](PROVENANCE_AUDIT_ZH.md) and [approval record](RELEASE_APPROVAL_RECORD_ZH.md).
 
 ## Pending release metadata
 

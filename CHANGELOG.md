@@ -61,3 +61,9 @@ This document records developer milestones; dates are not release dates. No publ
 - Project owner reports the original course project was independently authored and, to the owner's knowledge, the course imposed no restriction on publishing its source. This is not an institutional permission statement.
 - MATLAB source screening found no external URLs, third-party source notices, embedded binary data or dynamic web retrieval. Absence of explicit markers is not proof of provenance.
 - The archived private development repository contains earlier personal-email commit metadata. The new publication candidate is initialized from an independent root commit using GitHub noreply mail. Publication approval remains `NO`.
+
+### Clean GitHub deployment validation (private, 2026-10-27)
+
+- Verified 95 tracked files and exactly one root commit under Jiajun Xia's GitHub noreply identity in the new `tarosher/QueueSimLaboratory` repository.
+- Confirmed GitHub static preflight **passed** on `a3c8cfe0879d5c4313869ea67979498a752f0538`; private MATLAB Actions **skipped**.
+- Added `CITATION.cff` and updated stale first-push documentation; no simulator or MATLAB tests changed. The repository is still private and not officially released.

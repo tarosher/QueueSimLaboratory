@@ -4,7 +4,7 @@
 
 QueueSimLab grew out of a supermarket queueing course project into a reusable, configurable simulator for **single-node queues** and **open, acyclic queueing networks**. It compares operating policies and staffing decisions using replication-level statistics, matched input streams where justified, and transparent system diagnostics.
 
-**Project status:** **v0.2.0-rc1, private publication candidate** in `tarosher/QueueSimLaboratory`. The owner's MATLAB R2022b/Windows acceptance report dated 2026-10-27 confirms **89/89 MATLAB tests passed**, an integrated Benchmarks A–C export (23 metric rows), and six performance workload records; this previous local report did **not** record the tested Git commit SHA. This new repository has a fresh, single-root-commit history using a GitHub `noreply` email. Remote CI on this new repository must be checked after the first push. The final public release is not yet authorized.
+**Project status:** **v0.2.0-rc1, private publication candidate** in `tarosher/QueueSimLaboratory`. The owner's MATLAB R2022b/Windows acceptance report dated 2026-10-27 confirms **89/89 MATLAB tests passed**, an integrated Benchmarks A–C export (23 metric rows), and six performance workload records; this previous local report did **not** record the tested Git commit SHA. This new repository has a fresh, single-root-commit history using a GitHub `noreply` email. GitHub static preflight **passed** on the initial clean-history commit `a3c8cfe0879d5c4313869ea67979498a752f0538`; private MATLAB Actions were **skipped**, not passed. Public publication and the final release have not been authorized.
 
 ## What it can do
 
@@ -99,8 +99,8 @@ run('tests/run_rc_acceptance.m'); % 89 tests + A–C export + performance + evid
 
 See [GitHub deployment](docs/GITHUB_DEPLOYMENT_ZH.md), [Remote CI status](docs/RC1_REMOTE_VALIDATION_ZH.md) and [Validation](docs/VALIDATION.md) for independent quality gates and [Performance](benchmarks/README.md) for timing methodology. CI workflows only start once the repository is uploaded and Actions are enabled. MATLAB Actions can license public repositories automatically; **private repos require an appropriate MATLAB batch licensing token**. No token is included.
 
-## License and publication status
+## License, authorship and publication status
 
-Copyright (c) 2026 **Jiajun Xia**. The repository includes the standard **MIT License** candidate in [LICENSE](LICENSE), selected by the project owner. The original course-project copy is excluded, and the owner reports independent authorship and no known course prohibition on sharing the project. The current repository remains **private**, and the separate public-release approval gate is **HOLD** pending final review and owner authorization. Do not infer that a private staged license authorizes changing repository visibility.
+Author and copyright holder: **Jiajun Xia**. The repository includes the standard **MIT License** in [LICENSE](LICENSE), selected by the project owner. The recommended software citation is in [CITATION.cff](CITATION.cff). The original course-project copy is excluded, and the owner reports independent authorship and no known course prohibition on sharing the project. The current repository remains **private**, and the separate public-release approval gate is **HOLD** pending final review and owner authorization. Do not infer that a private staged license authorizes changing repository visibility.
 
 See [release checklist](docs/PUBLIC_RELEASE_CHECKLIST.md), [release approval](docs/RELEASE_APPROVAL_RECORD_ZH.md), and [draft notes](docs/RELEASE_NOTES_V0.2.0_DRAFT.md). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). Version history: [CHANGELOG.md](CHANGELOG.md).
