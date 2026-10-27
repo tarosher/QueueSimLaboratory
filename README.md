@@ -4,7 +4,7 @@
 
 QueueSimLab grew out of a supermarket queueing course project into a reusable, configurable simulator for **single-node queues** and **open, acyclic queueing networks**. It compares operating policies and staffing decisions using replication-level statistics, matched input streams where justified, and transparent system diagnostics.
 
-**Project status:** **v0.2.0-rc1, private publication candidate** in `tarosher/QueueSimLaboratory`. The owner's MATLAB R2022b/Windows acceptance report dated 2026-10-27 confirms **89/89 MATLAB tests passed**, an integrated Benchmarks A–C export (23 metric rows), and six performance workload records; this previous local report did **not** record the tested Git commit SHA. This new repository has a fresh, single-root-commit history using a GitHub `noreply` email. GitHub static preflight **passed** on the initial clean-history commit `a3c8cfe0879d5c4313869ea67979498a752f0538`; private MATLAB Actions were **skipped**, not passed. Public publication and the final release have not been authorized.
+**Project status:** **v0.2.0 approved for public publication** (2026-10-27). The owner's latest MATLAB R2022b/Windows acceptance on commit `b7494619d12277e703695563f6c328f9cbdebfd0` reports **89/89 tests passed**, complete Benchmarks A–C exports (23 metric rows), and six performance workload records. GitHub static CI passed on this commit; the private-repository MATLAB CI was **skipped**, not passed. The release-preparation update is documentation-only and does not change the tested MATLAB files. See the [versioned release](https://github.com/tarosher/QueueSimLaboratory/releases) when it is published.
 
 ## What it can do
 
@@ -101,6 +101,6 @@ See [GitHub deployment](docs/GITHUB_DEPLOYMENT_ZH.md), [Remote CI status](docs/R
 
 ## License, authorship and publication status
 
-Author and copyright holder: **Jiajun Xia**. The repository includes the standard **MIT License** in [LICENSE](LICENSE), selected by the project owner. The recommended software citation is in [CITATION.cff](CITATION.cff). The original course-project copy is excluded, and the owner reports independent authorship and no known course prohibition on sharing the project. The current repository remains **private**, and the separate public-release approval gate is **HOLD** pending final review and owner authorization. Do not infer that a private staged license authorizes changing repository visibility.
+Author and copyright holder: **Jiajun Xia**. The repository includes the standard **MIT License** in [LICENSE](LICENSE), selected by the project owner. The recommended software citation is in [CITATION.cff](CITATION.cff). The original course-project copy is excluded, and the owner reports independent authorship and no known course prohibition on sharing the project. The owner has **explicitly approved** public release under MIT on 2026-10-27. Actual repository visibility and GitHub Release publication should be checked on GitHub.
 
-See [release checklist](docs/PUBLIC_RELEASE_CHECKLIST.md), [release approval](docs/RELEASE_APPROVAL_RECORD_ZH.md), and [draft notes](docs/RELEASE_NOTES_V0.2.0_DRAFT.md). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). Version history: [CHANGELOG.md](CHANGELOG.md).
+See [release checklist](docs/PUBLIC_RELEASE_CHECKLIST.md), [release approval](docs/RELEASE_APPROVAL_RECORD_ZH.md), and [v0.2.0 release notes](docs/RELEASE_NOTES_V0.2.0.md). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). Version history: [CHANGELOG.md](CHANGELOG.md).

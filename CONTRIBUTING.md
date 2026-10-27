@@ -1,6 +1,6 @@
 # Contributing to QueueSimLab
 
-The repository is a **release candidate**, not yet under an approved open-source license. Before the owner approves a license, please do not redistribute the source as if it were open source.
+QueueSimLab is distributed under the **MIT License** (Copyright © 2026 Jiajun Xia). Contributions should be compatible with the MIT License and must not add third-party content without an appropriate license or attribution.
 
 ## Development workflow
 

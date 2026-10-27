@@ -31,4 +31,4 @@ clear classes; clear functions; rehash;
 run('tests/run_rc_acceptance.m');
 ```
 
-完整测试通过后记录 `git rev-parse HEAD`，以证明验收对应的源码版本。最终改成 Public 和创建 v0.2.0 Release 前需项目所有者明确批准。许可证与课程项目来源参见 `PUBLIC_RELEASE_CHECKLIST.md`。
+`b7494619d12277e703695563f6c328f9cbdebfd0` 已获本地 MATLAB R2022b 89/89 验收，GitHub 静态 CI 通过。项目所有者已于2026-10-27明确批准 MIT 下公开发布；后续仅需按 [发布操作规程](RELEASE_PLAYBOOK_ZH.md) 在 GitHub 网页将新仓库改为 Public 并创建 `v0.2.0` Release。不要公开原 `tarosher/QueueSimLab` 私人历史仓库。

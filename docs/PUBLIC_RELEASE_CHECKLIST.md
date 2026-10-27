@@ -1,33 +1,25 @@
-# Public GitHub release checklist — approval required
+# QueueSimLab v0.2.0 public release checklist
 
-**Current status: HOLD (private release candidate).** The independent author has selected MIT with copyright attribution **Jiajun Xia**, and a standard LICENSE is present. The new `QueueSimLaboratory` repository uses a clean Git root rather than the old email-bearing private development history. Source provenance, new-commit acceptance, and explicit authorization to make the repository public remain pending.
+**Owner decision: APPROVED on 2026-10-27.** Jiajun Xia explicitly authorized the `tarosher/QueueSimLaboratory` repository to become public and v0.2.0 to be distributed under MIT. See [approval record](RELEASE_APPROVAL_RECORD_ZH.md).
 
-## Before setting the repository public
+## Checked before publication
 
-- [x] Original supermarket-course project: owner self-reports **sole authorship** (2026-10-27). This does not independently clear course-policy or third-party restrictions.
-- [x] Initial static scan of the 60 MATLAB source files and Git tree completed ([screening report](RELEASE_SOURCE_SCREENING_ZH.md)); no obvious embedded third-party source signatures observed. **This does not confirm rights.**
-- [ ] Review any third-party contributions, borrowed materials, and actual source provenance throughout the current framework.
-- [ ] Keep `legacy/` (38 MATLAB files), original figures and any borrowed code/data **out of the Git history** unless redistribution approval is documented. If uncertain, publish only separately cleared, authored code, with an adapted regression strategy.
-- [x] Course-rule owner statement (2026-10-27): to the author's knowledge, the original course does not prohibit publishing the independently created project. No school-specific authorization is claimed; if restricted teacher-provided material is identified, exclude it or obtain permission.
-- [x] Confirm proposed copyright attribution: `Copyright (c) 2026 Jiajun Xia` (owner selected real-name identification, 2026-10-27).
-- [x] License type and named copyright holder selected: MIT, Copyright (c) 2026 Jiajun Xia.
-- [ ] Explicitly authorize public distribution under MIT after final provenance and release review.
-- [x] Confirm author attribution **Jiajun Xia**, MIT copyright notice, and non-sensitive software citation metadata (`CITATION.cff`). No institutional affiliation or contact email is asserted.
-- [x] Create and verify clean new GitHub `main` history: one root commit `a3c8cfe0879d5c4313869ea67979498a752f0538`, author/committer Jiajun Xia and GitHub `noreply` email; no old email-bearing commits.
-- [ ] Confirm no tokens, institutional data, personal identifiers or copyrighted attachments are present.
-- [ ] Run all MATLAB tests and export smoke checks on the **exact** publishable commit.
-- [x] Confirm GitHub static Actions success on clean initial commit ([run 40542216485](https://github.com/tarosher/QueueSimLaboratory/actions/runs/40542216485)); private MATLAB CI skipped and requires local verification or appropriate license.
-- [ ] Cut an annotated version tag and release only after checklist approval.
+- [x] Sole authorship of the original supermarket-queue course project confirmed by its owner; no known course restriction on releasing their own code.
+- [x] `legacy/` (38 original course MATLAB files) and its dependent regression test excluded from this public repository.
+- [x] Initial source/provenance scan of the 60 MATLAB files found no obvious external source copies or bundled restricted binary materials. This is a limited technical screening, not a guarantee of complete ownership.
+- [x] MIT `LICENSE` at repository root identifies `Copyright (c) 2026 Jiajun Xia`.
+- [x] `CITATION.cff` identifies Jiajun Xia and the correct repository URL.
+- [x] Clean Git history contains only GitHub noreply author and committer addresses; original personal-email history remains in the separate private archive.
+- [x] MATLAB R2022b local acceptance: 89/89 tests; Benchmarks A–C have 23 metric rows; 6 performance workloads. The recorded accepted commit is `b7494619d12277e703695563f6c328f9cbdebfd0`.
+- [x] Static Actions CI passed on the above `main` commit. Private MATLAB Actions were skipped, not passed.
+- [x] Project owner explicitly approved public visibility and MIT release on 2026-10-27.
 
-## Automation vs approval
+## GitHub publication actions still to perform
 
-`python tools/check_release.py` is a best-effort **technical** preflight. `--public` now checks both a license file and an explicit approval marker `PUBLIC_RELEASE_APPROVED: YES` in the approval record. Its checks do not establish actual ownership or legal permission. The checklist items above require a human decision.
+- [ ] Push the approved documentation-only commit to `main` and check its static CI.
+- [ ] Change only **QueueSimLaboratory** to Public. Keep the original `tarosher/QueueSimLab` Private.
+- [ ] Verify public code tree, MIT license, `.gitignore`, absence of generated outputs and author privacy settings.
+- [ ] Create the `v0.2.0` release tag from current `main`; copy verified [release notes](RELEASE_NOTES_V0.2.0.md), and publish GitHub Release.
+- [ ] Confirm the release tag and source archive match the reviewed commit.
 
-MATLAB Actions auto-license MATLAB for public GitHub repositories; private ones may need a batch licensing token. The workflow cannot circumvent software licensing restrictions.
-
-## Release-preparation documents (2026-10-27)
-
-- [Draft release notes](RELEASE_NOTES_V0.2.0_DRAFT.md) — technical scope and verified tests only; **not published**.
-- [Provenance audit form](PROVENANCE_AUDIT_ZH.md) — owner statement on independent authorship and no known course prohibition recorded; non-obvious third-party provenance and commit-email exposure remain for final review.
-- [Approval record](RELEASE_APPROVAL_RECORD_ZH.md) — explicit human signoff fields; current status **HOLD**.
-- [Release playbook](RELEASE_PLAYBOOK_ZH.md) — future publishing sequence, not authorization to publish.
+The command `python tools/check_release.py --public` checks file structure, license presence and recorded owner authorization. It cannot establish legal provenance or change repository visibility; pass/fail of MATLAB tests is independent.

@@ -21,11 +21,15 @@ class ReleaseAuditTests(unittest.TestCase):
             issues = check_release.audit(public=False)
         self.assertTrue(any('fake_M5_missing_file.txt' in i for i in issues))
 
-    def test_mit_candidate_does_not_authorize_publication(self):
+    def test_mit_license_and_owner_approval_recorded(self):
+        # This checks the recorded owner decision, not actual GitHub visibility
+        # or independent legal provenance.
         issues = check_release.audit(public=True)
         self.assertTrue((check_release.ROOT / 'LICENSE').is_file())
-        self.assertTrue(any('owner approval not recorded' in item for item in issues))
-        self.assertFalse(any('LICENSE file missing' in item for item in issues))
+        self.assertEqual(issues, [])
+        approval = (check_release.ROOT / 'docs' / 'RELEASE_APPROVAL_RECORD_ZH.md').read_text(encoding='utf-8')
+        self.assertIn('PUBLIC_RELEASE_APPROVED: YES', approval)
+        self.assertIn('Jiajun Xia', approval)
 
     def test_public_gate_requires_license_and_owner_approval(self):
         from tempfile import TemporaryDirectory

@@ -67,3 +67,10 @@ This document records developer milestones; dates are not release dates. No publ
 - Verified 95 tracked files and exactly one root commit under Jiajun Xia's GitHub noreply identity in the new `tarosher/QueueSimLaboratory` repository.
 - Confirmed GitHub static preflight **passed** on `a3c8cfe0879d5c4313869ea67979498a752f0538`; private MATLAB Actions **skipped**.
 - Added `CITATION.cff` and updated stale first-push documentation; no simulator or MATLAB tests changed. The repository is still private and not officially released.
+
+### v0.2.0 owner publication approval (2026-10-27; publication date is determined by GitHub Release)
+
+- Jiajun Xia explicitly approved public release of `tarosher/QueueSimLaboratory` under the MIT License.
+- Final owner-supplied MATLAB R2022b evidence on `b7494619d12277e703695563f6c328f9cbdebfd0`: 89/89 passed, 23 integrated benchmark rows, 6 performance workloads.
+- Publication documentation corrected and release notes finalized; all MATLAB source and regression-test files retained byte-for-byte.
+- GitHub visibility and final v0.2.0 tag/Release must be completed and independently checked.
