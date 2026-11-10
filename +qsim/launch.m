@@ -31,8 +31,7 @@ muField = addNumber(3,'Service rate / server',1,0.001,1000,0.1);
 lawField = addDropdown(4,'Service distribution', ...
     {'exponential','deterministic'},'exponential');
 serversField = addNumber(5,'Servers (single run)',5,1,100,1);
-rangeField = addDropdown(6,'Compare servers', ...
-    {'5:10','1:10','2:8','5:15','10:20'},'5:10');
+rangeField = addText(6,'Compare servers','5:10');
 arrivalsField = addNumber(7,'Arrival horizon (min)',480,0.001,1e7,60);
 observeField = addNumber(8,'Observation horizon',480,0.001,1e7,60);
 repField = addNumber(9,'Independent runs',10,1,500,1);
@@ -48,9 +47,9 @@ addLabel(14,'Max waiting (or Inf)');
 maxWaitingField = uieditfield(left,'text','Value','Inf');
 place(maxWaitingField,14,2);
 
+catalog = qsim.gui.metricCatalog();
 metricField = addDropdown(15,'Chart metric', ...
-    {'Mean wait','Mean sojourn','Mean queue length', ...
-     'Mean utilization','Max wait'},'Mean wait');
+    {catalog.name},'Avg. wait');
 metricField.ValueChangedFcn = @(~,~) renderChart();
 
 buttons = uigridlayout(left,[1 2]);
@@ -82,9 +81,9 @@ leftNote = uilabel(left,'Text', ...
     'WordWrap','on','FontSize',11);
 leftNote.Layout.Row = 19; leftNote.Layout.Column = [1 2];
 
-right = uigridlayout(root,[3 1]);
+right = uigridlayout(root,[4 1]);
 right.Layout.Row = 1; right.Layout.Column = 2;
-right.RowHeight = {'3x','2x',96};
+right.RowHeight = {'3x',52,'2x',96};
 right.RowSpacing = 10;
 right.Padding = [0 0 0 0];
 ax = uiaxes(right);
@@ -96,11 +95,13 @@ grid(ax,'on');
 
 resultTable = uitable(right,'Data',table(), ...
     'ColumnSortable',true);
-resultTable.Layout.Row = 2;
+resultTable.Layout.Row = 3;
+metricInfo = uilabel(right,'Text','', 'WordWrap','on','FontSize',12);
+metricInfo.Layout.Row = 2;
 
 statusArea = uitextarea(right,'Editable','off', ...
     'Value',{'Ready. Set parameters and click Run simulation.'});
-statusArea.Layout.Row = 3;
+statusArea.Layout.Row = 4;
 
 lastTable = table();
 lastRaw = [];
@@ -125,6 +126,12 @@ refreshMode();
         addLabel(row,titleText);
         h = uispinner(left,'Value',value,'Limits',[lower upper], ...
             'Step',step);
+        place(h,row,2);
+    end
+
+    function h = addText(row,titleText,value)
+        addLabel(row,titleText);
+        h = uieditfield(left,'text','Value',value);
         place(h,row,2);
     end
 
@@ -205,15 +212,10 @@ refreshMode();
             if strcmp(P.mode,'Single scenario')
                 counts = P.servers;
             else
-                ends = sscanf(P.serverRange,'%d:%d');
-                if numel(ends)~=2 || ends(1)<1 || ends(2)<ends(1) || ...
-                        ends(2)>100
-                    error('qsim:GUIInvalidInput','Server range must be start:end within 1..100.');
-                end
-                counts = ends(1):ends(2);
+                counts = qsim.gui.parseServerRange(P.serverRange);
             end
             nS = numel(counts);
-            raw = nan(P.nRep,nS,5);
+            raw = nan(P.nRep,nS,numel(catalog));
             dlg = uiprogressdlg(fig,'Title','QueueSimLab running', ...
                 'Message','Initializing...','Cancelable','on');
             for j = 1:nS
@@ -229,43 +231,30 @@ refreshMode();
                     drawnow limitrate
                     cfg = makeConfig(P,counts(j),P.seed+k-1);
                     r = qsim.run(cfg);
-                    raw(k,j,1) = r.system.meanWaitStartedCohort;
-                    raw(k,j,2) = r.system.meanSojournCompletedCohort;
-                    raw(k,j,3) = r.system.meanQueueLength;
-                    raw(k,j,4) = r.system.meanServerUtilization;
-                    waits = r.entities.wait(r.entities.accepted & ...
-                        isfinite(r.entities.wait));
-                    if ~isempty(waits)
-                        raw(k,j,5) = max(waits);
-                    end
+                    raw(k,j,:) = reshape(qsim.gui.singleNodeMetrics( ...
+                        r,P.observationHorizon,5),1,1,[]);
                 end
             end
             close(dlg); dlg = [];
-            nS = numel(counts);
-            MeanWaitMin = nan(nS,1);
-            WaitLower95 = nan(nS,1);
-            WaitUpper95 = nan(nS,1);
-            MeanSojournMin = nan(nS,1);
-            MeanQueueLength = nan(nS,1);
-            MeanUtilization = nan(nS,1);
-            MaxWaitMin = nan(nS,1);
+            summaryData = nan(nS,numel(catalog));
+            waitLower95 = nan(nS,1);
+            waitUpper95 = nan(nS,1);
             for j = 1:nS
-                ci = qsim.stats.meanCI(raw(:,j,1),0.95);
-                MeanWaitMin(j) = ci.mean;
-                WaitLower95(j) = ci.lower;
-                WaitUpper95(j) = ci.upper;
-                v = qsim.stats.meanCI(raw(:,j,2),0.95);
-                MeanSojournMin(j) = v.mean;
-                v = qsim.stats.meanCI(raw(:,j,3),0.95);
-                MeanQueueLength(j) = v.mean;
-                v = qsim.stats.meanCI(raw(:,j,4),0.95);
-                MeanUtilization(j) = v.mean;
-                v = qsim.stats.meanCI(raw(:,j,5),0.95);
-                MaxWaitMin(j) = v.mean;
+                for m = 1:numel(catalog)
+                    ci = qsim.stats.meanCI(raw(:,j,m),0.95);
+                    summaryData(j,m) = ci.mean;
+                    if m==1
+                        waitLower95(j) = ci.lower;
+                        waitUpper95(j) = ci.upper;
+                    end
+                end
             end
-            Servers = counts(:);
-            lastTable = table(Servers,MeanWaitMin,WaitLower95,WaitUpper95, ...
-                MeanSojournMin,MeanQueueLength,MeanUtilization,MaxWaitMin);
+            metricNames = {catalog.field};
+            lastTable = array2table(summaryData,'VariableNames',metricNames);
+            lastTable = addvars(lastTable,counts(:), ...
+                'Before',1,'NewVariableNames','Servers');
+            lastTable.WaitLower95 = waitLower95;
+            lastTable.WaitUpper95 = waitUpper95;
             lastRaw = raw;
             lastPreset = P;
             resultTable.Data = lastTable;
@@ -292,38 +281,24 @@ refreshMode();
     end
 
     function renderChart()
-        if isempty(lastTable) || height(lastTable)==0
-            return
+        if isempty(lastTable) || height(lastTable)==0, return; end
+        idx = find(strcmp({catalog.name},metricField.Value),1);
+        if isempty(idx), return; end
+        x = lastTable.Servers;
+        y = lastTable.(catalog(idx).field);
+        if idx==1 && lastPreset.nRep>=2
+            neg = y-lastTable.WaitLower95;
+            pos = lastTable.WaitUpper95-y;
+            errorbar(ax,x,y,neg,pos,'-o','LineWidth',1.6,'MarkerSize',7);
+        else
+            plot(ax,x,y,'-o','LineWidth',1.6,'MarkerSize',7);
         end
-        switch metricField.Value
-            case 'Mean wait'
-                y = lastTable.MeanWaitMin;
-                if lastPreset.nRep>=2
-                    neg = y-lastTable.WaitLower95;
-                    pos = lastTable.WaitUpper95-y;
-                    errorbar(ax,lastTable.Servers,y,neg,pos, ...
-                        '-o','LineWidth',1.6,'MarkerSize',7);
-                else
-                    plot(ax,lastTable.Servers,y,'-o','LineWidth',1.6);
-                end
-                ylabel(ax,'Mean waiting time (min)');
-            case 'Mean sojourn'
-                plot(ax,lastTable.Servers,lastTable.MeanSojournMin,'-o','LineWidth',1.6);
-                ylabel(ax,'Mean checkout sojourn (min)');
-            case 'Mean queue length'
-                plot(ax,lastTable.Servers,lastTable.MeanQueueLength,'-o','LineWidth',1.6);
-                ylabel(ax,'Time-average total waiting');
-            case 'Mean utilization'
-                plot(ax,lastTable.Servers,lastTable.MeanUtilization,'-o','LineWidth',1.6);
-                ylabel(ax,'Fraction busy per server');
-            otherwise
-                plot(ax,lastTable.Servers,lastTable.MaxWaitMin,'-o','LineWidth',1.6);
-                ylabel(ax,'Mean of replication maximum waits (min)');
-        end
-        title(ax,['QueueSimLab: ' metricField.Value]);
+        title(ax,['QueueSimLab: ' catalog(idx).name]);
+        ylabel(ax,[catalog(idx).name ' (' catalog(idx).unit ')']);
         xlabel(ax,'Number of servers');
-        xticks(ax,lastTable.Servers');
+        xticks(ax,x');
         grid(ax,'on');
+        metricInfo.Text = catalog(idx).help;
     end
 
     function savePreset(~,~)
@@ -405,7 +380,7 @@ refreshMode();
         policyField.Value = 'shortestQueue';
         stopField.Value = 'drain';
         maxWaitingField.Value = 'Inf';
-        metricField.Value = 'Mean wait';
+        metricField.Value = 'Avg. wait';
         refreshMode();
         statusArea.Value = {'Default parameters restored. Run to update results.'};
     end
