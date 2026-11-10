@@ -18,41 +18,43 @@ root.ColumnSpacing = 12;
 panel = uipanel(root,'Title','Simulation parameters');
 panel.Layout.Row = 1;
 panel.Layout.Column = 1;
-left = uigridlayout(panel,[18 2]);
+left = uigridlayout(panel,[19 2]);
 left.ColumnWidth = {155,'1x'};
-left.RowHeight = [repmat({30},1,16),{52},{'1x'}];
+left.RowHeight = [repmat({30},1,17),{52},{'1x'}];
 left.RowSpacing = 6;
 left.Padding = [10 10 10 10];
 
 modeField = addDropdown(1,'Experiment', ...
-    {'Single scenario','Compare 5-10 servers'},'Compare 5-10 servers');
+    {'Single scenario','Compare server range'},'Compare server range');
 lambdaField = addNumber(2,'Arrival rate (per min)',4.5,0,1000,0.1);
 muField = addNumber(3,'Service rate / server',1,0.001,1000,0.1);
 lawField = addDropdown(4,'Service distribution', ...
     {'exponential','deterministic'},'exponential');
 serversField = addNumber(5,'Servers (single run)',5,1,100,1);
-arrivalsField = addNumber(6,'Arrival horizon (min)',480,0.001,1e7,60);
-observeField = addNumber(7,'Observation horizon',480,0.001,1e7,60);
-repField = addNumber(8,'Independent runs',10,1,500,1);
-seedField = addNumber(9,'First random seed',2026,0,1e8,1);
-queueField = addDropdown(10,'Queue organization', ...
+rangeField = addDropdown(6,'Compare servers', ...
+    {'5:10','1:10','2:8','5:15','10:20'},'5:10');
+arrivalsField = addNumber(7,'Arrival horizon (min)',480,0.001,1e7,60);
+observeField = addNumber(8,'Observation horizon',480,0.001,1e7,60);
+repField = addNumber(9,'Independent runs',10,1,500,1);
+seedField = addNumber(10,'First random seed',2026,0,1e8,1);
+queueField = addDropdown(11,'Queue organization', ...
     {'separateFIFO','pooledFIFO'},'separateFIFO');
-policyField = addDropdown(11,'Queue selection', ...
+policyField = addDropdown(12,'Queue selection', ...
     {'shortestQueue','random','shortestExpectedWait'},'shortestQueue');
-stopField = addDropdown(12,'Stop policy', ...
+stopField = addDropdown(13,'Stop policy', ...
     {'drain','truncate'},'drain');
 
-addLabel(13,'Max waiting (or Inf)');
+addLabel(14,'Max waiting (or Inf)');
 maxWaitingField = uieditfield(left,'text','Value','Inf');
-place(maxWaitingField,13,2);
+place(maxWaitingField,14,2);
 
-metricField = addDropdown(14,'Chart metric', ...
+metricField = addDropdown(15,'Chart metric', ...
     {'Mean wait','Mean sojourn','Mean queue length', ...
      'Mean utilization','Max wait'},'Mean wait');
 metricField.ValueChangedFcn = @(~,~) renderChart();
 
 buttons = uigridlayout(left,[1 2]);
-buttons.Layout.Row = 15; buttons.Layout.Column = [1 2];
+buttons.Layout.Row = 16; buttons.Layout.Column = [1 2];
 buttons.ColumnWidth = {'1x','1x'};
 buttons.Padding = [0 0 0 0]; buttons.ColumnSpacing = 6;
 runButton = uibutton(buttons,'push','Text','Run simulation', ...
@@ -61,7 +63,7 @@ resetButton = uibutton(buttons,'push','Text','Reset defaults', ...
     'ButtonPushedFcn',@resetDefaults);
 
 presetBtns = uigridlayout(left,[1 2]);
-presetBtns.Layout.Row = 16; presetBtns.Layout.Column = [1 2];
+presetBtns.Layout.Row = 17; presetBtns.Layout.Column = [1 2];
 presetBtns.ColumnWidth = {'1x','1x'};
 presetBtns.Padding = [0 0 0 0]; presetBtns.ColumnSpacing = 6;
 uibutton(presetBtns,'push','Text','Save preset', ...
@@ -72,13 +74,13 @@ uibutton(presetBtns,'push','Text','Load preset', ...
 exportButton = uibutton(left,'push', ...
     'Text','Export current results (CSV / MAT / PNG)', ...
     'ButtonPushedFcn',@exportResult,'Enable','off');
-exportButton.Layout.Row = 17; exportButton.Layout.Column = [1 2];
+exportButton.Layout.Row = 18; exportButton.Layout.Column = [1 2];
 
 leftNote = uilabel(left,'Text', ...
     'Uses the original qsim.run engine. No fixed 180-minute limit. ' + ...
     "The horizon sets when arrivals stop; drain may finish later.", ...
     'WordWrap','on','FontSize',11);
-leftNote.Layout.Row = 18; leftNote.Layout.Column = [1 2];
+leftNote.Layout.Row = 19; leftNote.Layout.Column = [1 2];
 
 right = uigridlayout(root,[3 1]);
 right.Layout.Row = 1; right.Layout.Column = 2;
@@ -134,8 +136,10 @@ refreshMode();
     function refreshMode()
         if strcmp(modeField.Value,'Single scenario')
             serversField.Enable = 'on';
+            rangeField.Enable = 'off';
         else
             serversField.Enable = 'off';
+            rangeField.Enable = 'on';
         end
         if strcmp(queueField.Value,'pooledFIFO')
             policyField.Enable = 'off';
@@ -148,6 +152,7 @@ refreshMode();
         P = struct('mode',modeField.Value, ...
             'lambda',lambdaField.Value,'mu',muField.Value, ...
             'serviceLaw',lawField.Value,'servers',serversField.Value, ...
+            'serverRange',rangeField.Value, ...
             'arrivalHorizon',arrivalsField.Value, ...
             'observationHorizon',observeField.Value, ...
             'nRep',repField.Value,'seed',seedField.Value, ...
@@ -200,7 +205,12 @@ refreshMode();
             if strcmp(P.mode,'Single scenario')
                 counts = P.servers;
             else
-                counts = 5:10;
+                ends = sscanf(P.serverRange,'%d:%d');
+                if numel(ends)~=2 || ends(1)<1 || ends(2)<ends(1) || ...
+                        ends(2)>100
+                    error('qsim:GUIInvalidInput','Server range must be start:end within 1..100.');
+                end
+                counts = ends(1):ends(2);
             end
             nS = numel(counts);
             raw = nan(P.nRep,nS,5);
@@ -342,6 +352,9 @@ refreshMode();
             muField.Value = P.mu;
             lawField.Value = P.serviceLaw;
             serversField.Value = P.servers;
+            if isfield(P,'serverRange')
+                rangeField.Value = P.serverRange;
+            end
             arrivalsField.Value = P.arrivalHorizon;
             observeField.Value = P.observationHorizon;
             repField.Value = P.nRep;
@@ -378,11 +391,12 @@ refreshMode();
     end
 
     function resetDefaults(~,~)
-        modeField.Value = 'Compare 5-10 servers';
+        modeField.Value = 'Compare server range';
         lambdaField.Value = 4.5;
         muField.Value = 1;
         lawField.Value = 'exponential';
         serversField.Value = 5;
+        rangeField.Value = '5:10';
         arrivalsField.Value = 480;
         observeField.Value = 480;
         repField.Value = 10;
