@@ -23,7 +23,7 @@ The `which` output should point at `+qsim/launch.m`. A window titled **QueueSimL
 
 ## Use it
 
-1. Choose **Single scenario** to run one setting, or **Compare 5-10 servers** for a staffing sweep.
+1. Choose **Single scenario** to run one setting, or **Compare server range** for a staffing sweep (e.g., 5:10, 1:10, 5:15).
 2. Set arrival rate, service rate, service law, arrival and observation horizon, replication count and seed.
 3. Choose `pooledFIFO` or `separateFIFO`; for dedicated queues select `shortestQueue`, `random`, or `shortestExpectedWait`.
 4. Select `drain` to allow accepted entities to finish after the observation cutoff, or `truncate` to leave unfinished entities in backlog.
@@ -31,7 +31,7 @@ The `which` output should point at `+qsim/launch.m`. A window titled **QueueSimL
 6. Change any parameter and click **Run simulation** again; no new files/downloads/installations are needed.
 7. Save a parameter preset (`*.mat`), load it later, or export the latest CSV/MAT/PNG results to a folder you choose.
 
-You may set any **positive finite** arrival horizon; 180 minutes is not a required value. Defaults are 480 minutes, arrival rate 4.5 per minute, service rate 1 per minute per server, ten independent replications, and 5-10 servers. The 4.5/min default avoids starting the five-server case exactly at its nominal critical load, but this is a convenience, not a scientific requirement.
+You may set any **positive finite** arrival horizon; 180 minutes is not a required value. Defaults are 480 minutes, arrival rate 4.5 per minute, service rate 1 per minute per server, ten independent replications, and configurable server ranges. The 4.5/min default avoids starting the five-server case exactly at its nominal critical load, but this is a convenience, not a scientific requirement.
 
 ### What the graph means
 
