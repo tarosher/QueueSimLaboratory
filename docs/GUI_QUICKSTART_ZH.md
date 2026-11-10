@@ -35,11 +35,27 @@ You may set any **positive finite** arrival horizon; 180 minutes is not a requir
 
 ### What the graph means
 
-- **Mean wait**: mean waiting time among entities that started service; bars depict the 95% Student-t interval over independent replications when at least two are run.
-- **Mean sojourn**: mean time in checkout node among completed entities.
-- **Mean queue length**: time-average total count waiting, integrated over the observation horizon.
-- **Mean utilization**: time-average busy fraction, averaged over servers and the observation horizon.
-- **Max wait**: mean across independent replications of each replication's longest observed wait.
+The chart dropdown includes 11 measures:
+
+| GUI metric | Meaning |
+| --- | --- |
+| Avg. wait | Mean queue wait for service-started customers (minutes) |
+| P95 wait | Average of each replication's empirical 95th percentile wait (minutes) |
+| Avg. total time (wait + service) | Current node's queueing plus service time for completed customers (minutes); the queueing-theory name is *sojourn time* |
+| Avg. queue length | Time-average count waiting, excluding in-service customers |
+| Server busy rate | Mean percentage of the observation window each server is busy |
+| Rejection rate | Percentage of arrivals rejected due to finite capacities |
+| Chance of waiting | Percentage of accepted and service-started customers whose observed wait is positive |
+| Throughput | Completions within the observation window per minute (excludes drain tail) |
+| Max. queue length | Largest observed simultaneous waiting population |
+| Max. wait | Average of each replication's largest observed wait (minutes) |
+| Within 5-min wait target | Percentage of observed waits no longer than 5 minutes; threshold fixed in this preview |
+
+The Studio keeps rejection rate visible even under infinite capacity, when zero rejection is the expected behavior. A flat zero plot is not a failed simulation.
+
+The 95% waiting-time interval uses the Student-t method over independent simulation replications. A replication is the unit of uncertainty, not each individual customer. With only one replication, intervals are unavailable.
+
+The service-time process is currently a single-node model, not a supermarket-shopping or multi-stage charging-station model. Some top-level scenario-specific total times require additional stages and separate metrics.
 
 `drain` completes the initial arrival cohort even if service extends beyond the observation horizon; the time-weighted queue/utilization measurements are still cut off at the chosen observation horizon, as required by the existing engine. These are finite-horizon experiments, **not** stationary steady-state estimates.
 
@@ -47,7 +63,7 @@ You may set any **positive finite** arrival horizon; 180 minutes is not a requir
 
 The first Studio version exposes **single-node** Poisson arrivals and exponential/deterministic service times only. All other core capabilities continue to work via `qsim.run(cfg)`, including scheduled or renewal arrivals, other service-time laws, multiple servers, and explicit acyclic multi-node networks. Nothing from the original supermarket-shopping course project (shopping-time process, Halton streams, fixed 180-minute cutoff) is injected into the core simulator.
 
-For a larger future GUI: add input forms for distribution parameters and multi-node topology, then implement reusable validation/persistence using the existing `qsim.validateConfig` API. A dedicated GUI smoke test requires a MATLAB desktop session. This GUI patch has **not yet been MATLAB-runtime tested**; validate it locally in R2022b before merging.
+For a larger future GUI: add input forms for distribution parameters and multi-node topology, then implement reusable validation/persistence using the existing `qsim.validateConfig` API. GitHub MATLAB CI runs the non-visual helper smoke test; interactive window layout, save/load, export and clicks still require a MATLAB desktop session for manual verification.
 
 ## Developer check
 
@@ -67,4 +83,4 @@ Keep the original engine regression suite intact:
 run('tests/run_all_tests.m')
 ```
 
-This tests the engine, not the new GUI widgets.
+Then run `run('tools/gui_smoke_test.m')` to validate range parsing and deterministic metric extraction. The 89-test suite tests the original engine; the GUI smoke test checks the new helper layer. Neither automatically tests window rendering.
