@@ -52,7 +52,7 @@ Users who prefer not to edit MATLAB scripts can open a GUI with **one command**:
 qsim.launch
 ```
 
-The UI supports changing arrival/service rates, server count, queue policy, horizons, random seed, and independent replications; it can compare **5–10 servers** and export CSV/MAT/PNG results or save/load parameter presets. Changes take effect when **Run simulation** is clicked; no new downloads are needed. This preview GUI is **not yet MATLAB-runtime validated** and covers single-node Poisson arrivals with exponential or deterministic service only. The full `qsim.run` API remains supported. See [GUI quickstart](docs/GUI_QUICKSTART_ZH.md).
+The UI supports changing arrival/service rates, server count, queue policy, horizons, random seed, and independent replications; it can compare **selectable server ranges** and export CSV/MAT/PNG results or save/load parameter presets. Changes take effect when **Run simulation** is clicked; no new downloads are needed. This preview GUI is **not yet MATLAB-runtime validated** and covers single-node Poisson arrivals with exponential or deterministic service only. The full `qsim.run` API remains supported. See [GUI quickstart](docs/GUI_QUICKSTART_ZH.md).
 
 ## Reproduce the research examples
 
