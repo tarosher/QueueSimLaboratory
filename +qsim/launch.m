@@ -2,7 +2,7 @@ function fig = launch()
 %LAUNCH Interactive GUI for QueueSimLab single-node experiments.
 %   qsim.launch opens a base-MATLAB R2022b-compatible parameter studio.
 %   It calls the existing qsim.run engine without altering DES logic.
-%   Supports one staffing scenario or a 5:10 staffing sweep.
+%   Supports a single scenario or a configurable staffing sweep.
 %
 %   Limits: Poisson arrivals; exponential/deterministic service;
 %   single-node mode only. Full API remains available through qsim.run.
@@ -77,8 +77,8 @@ exportButton = uibutton(left,'push', ...
 exportButton.Layout.Row = 18; exportButton.Layout.Column = [1 2];
 
 leftNote = uilabel(left,'Text', ...
-    'Uses the original qsim.run engine. No fixed 180-minute limit. ' + ...
-    "The horizon sets when arrivals stop; drain may finish later.", ...
+    ['Uses the original qsim.run engine. No fixed 180-minute limit. ' ...
+    'The horizon sets when arrivals stop; drain may finish later.'], ...
     'WordWrap','on','FontSize',11);
 leftNote.Layout.Row = 19; leftNote.Layout.Column = [1 2];
 
